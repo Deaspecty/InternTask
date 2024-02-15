@@ -70,7 +70,7 @@
         updateSlider();
     }
     function prevSlide(to = 1) {
-        currentIndex = (currentIndex * to + slider.children.length) % slider.children.length;
+        currentIndex = (currentIndex - to + slider.children.length) % slider.children.length;
         updateSlider();
     }
     function updateSlider() {
@@ -108,7 +108,7 @@
             for(let i = 0; i < index; i++){
                 images[i].style.transform = `perspective(2000px) rotateY(-180deg)`;
             }
-            nextSlide(index);
+            nextSlide(index-currentIndex);
             console.log("+++", currentIndex, index)
             image.addEventListener('transitionstart', function transitionStartHandler() { //СКРЫТЬ
                 image.removeEventListener('transitionstart', transitionStartHandler);
@@ -131,7 +131,7 @@
             for(let i = images.length; i > index && i >= 0 && i <= 0; i--){
                 images[i].style.transform = `perspective(2000px) rotateY(0deg)`;
             }
-            prevSlide(index);
+            prevSlide(currentIndex - index);
             console.log("---", currentIndex, index)
             image2.addEventListener('transitionstart', function transitionStartHandler() { //СКРЫТЬ
                 image2.removeEventListener('transitionstart', transitionStartHandler);
@@ -149,47 +149,6 @@
 
         }
     }
-</script>
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const slider = document.querySelector('.slider');
-        let currentIndex = 0;
-        function nextSlide() {
-            currentIndex = (currentIndex + 1) % slider.children.length;
-            updateSlider();
-        }
-        function prevSlide() {
-            currentIndex = (currentIndex - 1 + slider.children.length) % slider.children.length;
-            updateSlider();
-        }
-        function updateSlider() {
-            const translateValue = -currentIndex * 100 + '%';
-            slider.style.transform = 'translateX(' + translateValue + ')';
-        }
-        // setInterval(nextSlide, 1000);
-        // nextSlide()
-        // // Event listeners for manual control
-        // document.querySelector('.slider-container').addEventListener('mouseenter', function () {
-        //     clearInterval(intervalId);
-        // });
-        //
-        // document.querySelector('.slider-container').addEventListener('mouseleave', function () {
-        //     intervalId = setInterval(nextSlide, 3000);
-        // });
-        //
-        // document.querySelector('.slider-container').addEventListener('click', function (event) {
-        //     const clickedElement = event.target;
-        //
-        //     if (clickedElement.classList.contains('slide')) {
-        //         const clickedIndex = Array.from(slider.children).indexOf(clickedElement);
-        //         currentIndex = clickedIndex;
-        //         updateSlider();
-        //     }
-        // });
-
-        // Initial update to set the first slide
-        // updateSlider();
-    });
 </script>
 </body>
 </html>
