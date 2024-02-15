@@ -5,7 +5,7 @@ body{
     top: 0px;
     right: 0px;
     margin: 0px;
-    font-family: "Montserrat";
+    font-family: "Montserrat Medium", serif;
     font-style: normal;
 }
 #nav-bar{
@@ -43,7 +43,7 @@ body{
     white-space: nowrap;
     margin: 1px;
     font-family: "Montserrat ExtraBold", serif;
-    font-size: 48px;
+    font-size: 3.5em;
 }
 .nav-line{
     width: auto;
@@ -52,13 +52,6 @@ body{
     margin-top: 10px;
 }
 
-#text-slider {
-    width: 100%;
-    height: 800px;
-    background: linear-gradient(#0A3E92, #274e8d);
-    position: relative;
-    z-index: 3;
-}
 #mobile-image-1 {
     width: 500px;
     position: absolute;
@@ -67,19 +60,49 @@ body{
     top: 200px;
     background-color: white;
     z-index: 2;
+    border-radius: 50px 50px 0px 0px;
 }
 .mobile-image {
     width: 600px;
     position: absolute;
     left: 300px;
-    top: 400px;
+    top: 300px;
     background-color: white;
     z-index: 4;
     object-fit: cover;
     transform: perspective(2000px) rotateY(180deg);
-    transition-duration: 1s;
+    transition-duration: 0.5s;
     backface-visibility: hidden;
+    border-radius: 50px;
 }
 #mobile-image-2{
     transform: perspective(2000px) rotateY(0deg);
+}
+.slider {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+}
+.slide {
+    flex: 0 0 100%;
+    box-sizing: border-box;
+    padding: 20px;
+    text-align: center;
+}
+.slide-h1{
+    font-size: 3.5em;
+}
+.slide-p{
+    font-size: 2.5em;
+}
+#text-slider {
+    width: 100%;
+    height: 800px;
+    background: linear-gradient(#0A3E92, #274e8d);
+    position: relative;
+    z-index: 3;
+    overflow: hidden;
+    max-width: 100%; /* Задайте желаемую максимальную ширину контейнера */
+    margin: 0 auto; /* Чтобы центрировать контейнер по горизонтали */
+    padding-top: 150px;
+    color: white;
 }

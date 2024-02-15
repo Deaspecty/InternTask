@@ -36,57 +36,86 @@
 <img src="photoes/2.png" id="mobile-image-3" class="mobile-image" alt="Здесь красивая фотографии связанная с текстом">
 <img src="photoes/3.png" id="mobile-image-4" class="mobile-image" alt="Здесь красивая фотографии связанная с текстом">
 <img src="photoes/4.png" id="mobile-image-5" class="mobile-image" alt="Здесь красивая фотографии связанная с текстом">
-<div id="text-slider"></div>
+
+<div id="text-slider">
+    <div class="slider">
+        <div class="slide">
+            <h1 class="slide-h1">Получайте больше обращений и продаж в социальных сетях</h1>
+            <p class="slide-p">Позвольте клиенту выбрать удобный способ связи с вами и оплатить товары и услуги прямо в социальной сети. </p>
+        </div>
+        <div class="slide">
+            <h1 class="slide-h1">Расскажите больше о себе и станьте еще популярнее</h1>
+            <p class="slide-p">Направляйте аудиторию по нужным ссылкам: увеличивайте просмотры контента, повышайте продажи билетов и популярность в социальных сетях. </p>
+        </div>
+        <div class="slide">
+            <h1 class="slide-h1">Сделайте шопинг удобным для вашего клиента</h1>
+            <p class="slide-p">Запустите онлайн-продажи прямо сейчас. Создайте интернет-магазин за несколько минут без дизайнера и программиста. </p>
+        </div>
+        <div class="slide">
+            <h1 class="slide-h1">Расскажите больше о себе, вашем творчестве и увлечениях</h1>
+            <p class="slide-p">Поделитесь своими успехами, получите дополнительный трафик в другие социальные сети и находите новых подписчиков.</p>
+        </div>
+        <!-- Add more slides as needed -->
+    </div>
+</div>
 
 <script>
     const images = document.getElementsByClassName('mobile-image');
+    const slider = document.querySelector('.slider');
     let NOW = 0
-    let texts = ['']
+    let currentIndex = 0;
 
-    function changePhoto(img, index){
-        img.src = "photoes/" + index + ".png";
+    function nextSlide(to = 1) {
+        currentIndex = (currentIndex + to) % slider.children.length;
+        updateSlider();
     }
-    // function goTo(index){
-    //     console.log(index, NOW)
-    //     if(index > NOW){
-    //         image.style.transform = `perspective(2000px) rotateY(90deg)`;
-    //         setTimeout(changePhoto, 250, NOW+1)
-    //         image.style.transform = `perspective(2000px) rotateY(180deg)`;
-    //         NOW += 1
-    //         console.log("forward")
-    //     }else if(index < NOW){
-    //         image.style.transform = ''
-    //         image.style.transform = `perspective(2000px) rotateY(270deg)`;
-    //         setTimeout(changePhoto, 250, NOW-1)
-    //         image.style.transform = `perspective(2000px) rotateY(360deg)`;
-    //         console.log("backward")
-    //         NOW -= 1
+    function prevSlide(to = 1) {
+        currentIndex = (currentIndex * to + slider.children.length) % slider.children.length;
+        updateSlider();
+    }
+    function updateSlider() {
+        const translateValue = -currentIndex * 100 + '%';
+        slider.style.transform = 'translateX(' + translateValue + ')';
+    }
+    // setInterval(nextSlide, 1000);
+    // // Event listeners for manual control
+    // document.querySelector('.slider-container').addEventListener('mouseenter', function () {
+    //     clearInterval(intervalId);
+    // });
+    //
+    // document.querySelector('.slider-container').addEventListener('mouseleave', function () {
+    //     intervalId = setInterval(nextSlide, 3000);
+    // });
+    //
+    // document.querySelector('.slider-container').addEventListener('click', function (event) {
+    //     const clickedElement = event.target;
+    //
+    //     if (clickedElement.classList.contains('slide')) {
+    //         const clickedIndex = Array.from(slider.children).indexOf(clickedElement);
+    //         currentIndex = clickedIndex;
+    //         updateSlider();
     //     }
-    //     if(NOW !== index){
-    //         goTo(index);
-    //     }
-    // }
-    function goTo(index) {
-        console.log(images)
-        const image = images[NOW]
+    // });
+    // Initial update to set the first slide
+    // updateSlider();
 
-        console.log(index, NOW);
+    function goTo(index) {
+        const image = images[NOW]
+        // console.log(index, NOW);
 
         if (index > NOW) {
             const image2 = images[index]
-            image.style.transform = `perspective(2000px) rotateY(-180deg)`;
+            for(let i = 0; i < index; i++){
+                images[i].style.transform = `perspective(2000px) rotateY(-180deg)`;
+            }
+            nextSlide(index);
+            console.log("+++", currentIndex, index)
             image.addEventListener('transitionstart', function transitionStartHandler() { //СКРЫТЬ
                 image.removeEventListener('transitionstart', transitionStartHandler);
                 for(let i = 0; i < images.length; i++){
-                    images[i].style.zIndex = '4'
-                    // if(index > i){
-                    //     images[i].style.transform = `perspective(2000px) rotateY(-180deg)`;
-                    // }else if(index < i){
-                    //     images[i].style.transform = `perspective(2000px) rotateY(180deg)`;
-                    // }
+                    images[i].style.zIndex = '4';
                 }
                 NOW = index;
-                console.log("Animation complete 1");
             });
 
             image2.style.transform = `perspective(2000px) rotateY(90deg)`;
@@ -94,62 +123,73 @@
                 image2.removeEventListener('transitionstart', transitionStartHandler);
                 image2.style.zIndex = '5';
                 image2.style.transform = `perspective(2000px) rotateY(0deg)`;
-                console.log("Animation complete 2");
             });
+
         } else if (index < NOW) {
             const image2 = images[index]
-            // image.style.transform = `perspective(2000px) rotateY(90deg)`;
-            // image.addEventListener('transitionend', function transitionEndHandler() {
-            //     image.removeEventListener('transitionend', transitionEndHandler);
-            //     changePhoto(NOW-1);
-            //     NOW-=1;
-            //     image.style.transform = `perspective(2000px) rotateY(0deg)`;
-            //     console.log("Animation complete");
-            // });
             image2.style.transform = `perspective(2000px) rotateY(0deg)`;
+            for(let i = images.length; i > index && i >= 0 && i <= 0; i--){
+                images[i].style.transform = `perspective(2000px) rotateY(0deg)`;
+            }
+            prevSlide(index);
+            console.log("---", currentIndex, index)
             image2.addEventListener('transitionstart', function transitionStartHandler() { //СКРЫТЬ
                 image2.removeEventListener('transitionstart', transitionStartHandler);
-                NOW = index;
                 for(let i = 0; i < images.length; i++){
-                    images[i].style.zIndex = '4'
-                    // if(index > i){
-                    //     images[i].style.transform = `perspective(2000px) rotateY(-180deg)`;
-                    // }else if(index < i){
-                    //     images[i].style.transform = `perspective(2000px) rotateY(180deg)`;
-                    // }
+                    images[i].style.zIndex = '4';
                 }
-                // image2.style.transform = `perspective(2000px) rotateY(0deg) `;
-                console.log("Animation complete 3");
+                NOW = index;
             });
 
             image.style.transform = `perspective(2000px) rotateY(180deg) `;
             image.addEventListener('transitionstart', function transitionStartHandler() { //ПОКАЗАТЬ
                 image.removeEventListener('transitionstart', transitionStartHandler);
-                image2.style.zIndex = '5'
-
-                console.log("Animation complete 4");
+                image2.style.zIndex = '5';
             });
 
-
-
         }
-
-        // setTimeout(() => {
-        //     changePhoto(index);
-        //
-        //     // Добавляем слушателя события transitionend
-        //     image.addEventListener('transitionend', function transitionEndHandler() {
-        //         // Удаляем слушателя события transitionend после выполнения
-        //         image.removeEventListener('transitionend', transitionEndHandler);
-        //
-        //         // После завершения анимации, восстанавливаем transform
-        //         image.style.transform = '';
-        //         NOW = index;
-        //
-        //         console.log("Animation complete");
-        //     });
-        // }, 250);
     }
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const slider = document.querySelector('.slider');
+        let currentIndex = 0;
+        function nextSlide() {
+            currentIndex = (currentIndex + 1) % slider.children.length;
+            updateSlider();
+        }
+        function prevSlide() {
+            currentIndex = (currentIndex - 1 + slider.children.length) % slider.children.length;
+            updateSlider();
+        }
+        function updateSlider() {
+            const translateValue = -currentIndex * 100 + '%';
+            slider.style.transform = 'translateX(' + translateValue + ')';
+        }
+        // setInterval(nextSlide, 1000);
+        // nextSlide()
+        // // Event listeners for manual control
+        // document.querySelector('.slider-container').addEventListener('mouseenter', function () {
+        //     clearInterval(intervalId);
+        // });
+        //
+        // document.querySelector('.slider-container').addEventListener('mouseleave', function () {
+        //     intervalId = setInterval(nextSlide, 3000);
+        // });
+        //
+        // document.querySelector('.slider-container').addEventListener('click', function (event) {
+        //     const clickedElement = event.target;
+        //
+        //     if (clickedElement.classList.contains('slide')) {
+        //         const clickedIndex = Array.from(slider.children).indexOf(clickedElement);
+        //         currentIndex = clickedIndex;
+        //         updateSlider();
+        //     }
+        // });
+
+        // Initial update to set the first slide
+        // updateSlider();
+    });
 </script>
 </body>
 </html>
