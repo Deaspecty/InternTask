@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>InternTask</title>
+    <link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+<div id="top-section">
+    <div id="nav-bar">
+        <div class="card" onclick="goTo(0)">
+            <p class="nav-num">1</p>
+            <p class="nav-text">Бизнесу</p>
+            <div class="nav-line"></div>
+        </div>
+        <div class="card" onclick="goTo(1)">
+            <p class="nav-num">2</p>
+            <p class="nav-text">Популярным людям</p>
+            <div class="nav-line"></div>
+        </div>
+        <div class="card" onclick="goTo(2)">
+            <p class="nav-num">3</p>
+            <p class="nav-text">Интернет-магазинам</p>
+            <div class="nav-line"></div>
+        </div>
+        <div class="card" onclick="goTo(3)">
+            <p class="nav-num">4</p>
+            <p class="nav-text">Каждому</p>
+            <div class="nav-line"></div>
+        </div>
+    </div>
+    <img src="3465256.png" id="mobile-image-1" alt="Здесь красивая самодельная фотография инстаграма">
+</div>
+<img src="photoes/1.png" id="mobile-image-2" class="mobile-image" alt="Здесь красивая фотографии связанная с текстом" >
+<img src="photoes/2.png" id="mobile-image-3" class="mobile-image" alt="Здесь красивая фотографии связанная с текстом">
+<img src="photoes/3.png" id="mobile-image-4" class="mobile-image" alt="Здесь красивая фотографии связанная с текстом">
+<img src="photoes/4.png" id="mobile-image-5" class="mobile-image" alt="Здесь красивая фотографии связанная с текстом">
+<div id="text-slider"></div>
+
+<script>
+    const images = document.getElementsByClassName('mobile-image');
+    let NOW = 0
+    let texts = ['']
+
+    function changePhoto(img, index){
+        img.src = "photoes/" + index + ".png";
+    }
+    // function goTo(index){
+    //     console.log(index, NOW)
+    //     if(index > NOW){
+    //         image.style.transform = `perspective(2000px) rotateY(90deg)`;
+    //         setTimeout(changePhoto, 250, NOW+1)
+    //         image.style.transform = `perspective(2000px) rotateY(180deg)`;
+    //         NOW += 1
+    //         console.log("forward")
+    //     }else if(index < NOW){
+    //         image.style.transform = ''
+    //         image.style.transform = `perspective(2000px) rotateY(270deg)`;
+    //         setTimeout(changePhoto, 250, NOW-1)
+    //         image.style.transform = `perspective(2000px) rotateY(360deg)`;
+    //         console.log("backward")
+    //         NOW -= 1
+    //     }
+    //     if(NOW !== index){
+    //         goTo(index);
+    //     }
+    // }
+    function goTo(index) {
+        console.log(images)
+        const image = images[NOW]
+
+        console.log(index, NOW);
+
+        if (index > NOW) {
+            const image2 = images[index]
+            image.style.transform = `perspective(2000px) rotateY(-180deg)`;
+            image.addEventListener('transitionstart', function transitionStartHandler() { //СКРЫТЬ
+                image.removeEventListener('transitionstart', transitionStartHandler);
+                for(let i = 0; i < images.length; i++){
+                    images[i].style.zIndex = '4'
+                    // if(index > i){
+                    //     images[i].style.transform = `perspective(2000px) rotateY(-180deg)`;
+                    // }else if(index < i){
+                    //     images[i].style.transform = `perspective(2000px) rotateY(180deg)`;
+                    // }
+                }
+                NOW = index;
+                console.log("Animation complete 1");
+            });
+
+            image2.style.transform = `perspective(2000px) rotateY(90deg)`;
+            image2.addEventListener('transitionstart', function transitionStartHandler() { //ПОКАЗАТЬ
+                image2.removeEventListener('transitionstart', transitionStartHandler);
+                image2.style.zIndex = '5';
+                image2.style.transform = `perspective(2000px) rotateY(0deg)`;
+                console.log("Animation complete 2");
+            });
+        } else if (index < NOW) {
+            const image2 = images[index]
+            // image.style.transform = `perspective(2000px) rotateY(90deg)`;
+            // image.addEventListener('transitionend', function transitionEndHandler() {
+            //     image.removeEventListener('transitionend', transitionEndHandler);
+            //     changePhoto(NOW-1);
+            //     NOW-=1;
+            //     image.style.transform = `perspective(2000px) rotateY(0deg)`;
+            //     console.log("Animation complete");
+            // });
+            image2.style.transform = `perspective(2000px) rotateY(0deg)`;
+            image2.addEventListener('transitionstart', function transitionStartHandler() { //СКРЫТЬ
+                image2.removeEventListener('transitionstart', transitionStartHandler);
+                NOW = index;
+                for(let i = 0; i < images.length; i++){
+                    images[i].style.zIndex = '4'
+                    // if(index > i){
+                    //     images[i].style.transform = `perspective(2000px) rotateY(-180deg)`;
+                    // }else if(index < i){
+                    //     images[i].style.transform = `perspective(2000px) rotateY(180deg)`;
+                    // }
+                }
+                // image2.style.transform = `perspective(2000px) rotateY(0deg) `;
+                console.log("Animation complete 3");
+            });
+
+            image.style.transform = `perspective(2000px) rotateY(180deg) `;
+            image.addEventListener('transitionstart', function transitionStartHandler() { //ПОКАЗАТЬ
+                image.removeEventListener('transitionstart', transitionStartHandler);
+                image2.style.zIndex = '5'
+
+                console.log("Animation complete 4");
+            });
+
+
+
+        }
+
+        // setTimeout(() => {
+        //     changePhoto(index);
+        //
+        //     // Добавляем слушателя события transitionend
+        //     image.addEventListener('transitionend', function transitionEndHandler() {
+        //         // Удаляем слушателя события transitionend после выполнения
+        //         image.removeEventListener('transitionend', transitionEndHandler);
+        //
+        //         // После завершения анимации, восстанавливаем transform
+        //         image.style.transform = '';
+        //         NOW = index;
+        //
+        //         console.log("Animation complete");
+        //     });
+        // }, 250);
+    }
+</script>
+</body>
+</html>
