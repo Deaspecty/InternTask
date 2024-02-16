@@ -62,8 +62,11 @@
 <script>
     const images = document.getElementsByClassName('mobile-image');
     const slider = document.querySelector('.slider');
+    const lines = document.getElementsByClassName("nav-line");
     let NOW = 0
     let currentIndex = 0;
+
+    lines.item(0).style.opacity = "100%";
 
     function nextSlide(to = 1) {
         currentIndex = (currentIndex + to) % slider.children.length;
@@ -103,6 +106,9 @@
         const image = images[NOW]
         // console.log(index, NOW);
 
+        lines.item(NOW).style.opacity = "0%";
+
+        lines.item(index).style.opacity = "100%";
         if (index > NOW) {
             const image2 = images[index]
             for(let i = 0; i < index; i++){
@@ -118,17 +124,16 @@
                 NOW = index;
             });
 
-            image2.style.transform = `perspective(2000px) rotateY(90deg)`;
+            image2.style.transform = `perspective(2000px) rotateY(0deg)`;
             image2.addEventListener('transitionstart', function transitionStartHandler() { //ПОКАЗАТЬ
                 image2.removeEventListener('transitionstart', transitionStartHandler);
                 image2.style.zIndex = '5';
-                image2.style.transform = `perspective(2000px) rotateY(0deg)`;
             });
 
         } else if (index < NOW) {
             const image2 = images[index]
             image2.style.transform = `perspective(2000px) rotateY(0deg)`;
-            for(let i = images.length; i > index && i >= 0 && i <= 0; i--){
+            for(let i = images.length; i >= index && i >= 0 && i <= 0; i--){  //let i = 0; i > index; i--
                 images[i].style.transform = `perspective(2000px) rotateY(0deg)`;
             }
             prevSlide(currentIndex - index);
@@ -140,13 +145,11 @@
                 }
                 NOW = index;
             });
-
             image.style.transform = `perspective(2000px) rotateY(180deg) `;
             image.addEventListener('transitionstart', function transitionStartHandler() { //ПОКАЗАТЬ
                 image.removeEventListener('transitionstart', transitionStartHandler);
                 image2.style.zIndex = '5';
             });
-
         }
     }
 </script>

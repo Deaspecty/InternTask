@@ -33,9 +33,9 @@ body{
     cursor: pointer;
 }
 .nav-num{
-    color: #2588D3;
+    color: #2a9cf3;
     margin: 1px;
-    font-family: "Montserrat Medium", serif;
+    font-family: "Montserrat ExtraBold", serif;
     font-size: 48px;
 }
 .nav-text{
@@ -47,9 +47,11 @@ body{
 }
 .nav-line{
     width: auto;
-    height: 3px;
-    background-color: white;
+    height: 10px;
+    background-color: #2a9cf3;
     margin-top: 10px;
+    opacity: 0%;
+    transition-duration: 0.5s;
 }
 
 #mobile-image-1 {
